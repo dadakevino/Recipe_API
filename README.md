@@ -30,7 +30,7 @@ http://127.0.0.1:5000/recipe/<id>
 Navigate to recipe-by-cuisine with a specified cuisine.
 Specify page number if desired
 ```
-http://127.0.0.1:5000/recipe-by-cuisine/<cuisine>?page=2
+http://127.0.0.1:5000/recipes/<cuisine>?page=2
 ```
 
 
