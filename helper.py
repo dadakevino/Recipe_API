@@ -7,9 +7,11 @@ import pandas as pd
 def import_recipes():
     """Imports recipe CSV data to df"""
     filename = Path.cwd() / 'recipe-data.csv'
-    return pd.read_csv(filename, index_col=None)
+    recipes = pd.read_csv(filename, index_col=None)
+    recipes.fillna('', inplace=True)
+    return recipes
 
-def import_recipes_id(id):
+def import_recipes_by_id(id):
     """Imports recipe CSV data to df and returns
    a recipe list' for a given id"""
     recipes = import_recipes()
