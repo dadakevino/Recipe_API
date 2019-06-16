@@ -1,18 +1,18 @@
-"""Flask web app API - returns a list of value within
- a given radius of a UK postcode"""
+"""Flask web app API for recipes
+Reads recipe data from a CSV, allows getting recipes
+and updating recipe fields"""
 
 import datetime
 
 from flask import Flask, abort, request, jsonify
 from flask_restful import Api, Resource, reqparse
 
-from helper import import_recipes, import_recipes_id,\
+from helper import import_recipes, import_recipes_by_id,\
     paginate_recipes, response_with_pagination
 from app.config import app_config
 
 
 application = Flask(__name__)
-#config_name = os.getenv('APP_SETTINGS')
 config_name = 'testing'
 application.config.from_object(app_config[config_name])
 
@@ -21,12 +21,11 @@ api = Api(application)
 @application.route('/recipe/<int:id>', methods=['GET'])
 def get_recipe(id):
     """Return recipe in JSON format for a given recipe ID"""
-    recipes = import_recipes_id(id)
+    recipes = import_recipes_by_id(id)
     if not recipes:
         abort(404)
 
     return jsonify(recipes[0])
-
 
 @application.route('/recipes/<cuisine>', methods=['GET'])
 def get_recipe_by_cuisine(cuisine):
@@ -66,12 +65,13 @@ class RecipeAPI(Resource):
     def put(self, id):
         """Updates a recipe for a given ID.
         Content type must be JSON."""
-        recipes = import_recipes_id(id)
+        recipes = import_recipes_by_id(id)
         if not recipes:
             abort(404)
 
         recipe = recipes[0]
         args = self.reqparse.parse_args()
+        print(args)
         for key, value in args.items():
             if value is not None:
                 recipe[key] = value
@@ -81,4 +81,4 @@ class RecipeAPI(Resource):
 
         return {'recipe': recipe}, 200
 
-api.add_resource(RecipeAPI, '/recipez/<int:id>')
+api.add_resource(RecipeAPI, '/recipe/<int:id>')
