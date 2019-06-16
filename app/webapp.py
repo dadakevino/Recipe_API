@@ -50,9 +50,17 @@ def get_recipe_by_cuisine(cuisine):
 class RecipeAPI(Resource):
 
     def __init__(self):
+        int_names = ['id', 'calories_kcal', 'protein_grams', 'fat_grams',
+                     'carb_grams', 'preparation_time_minutes', 'shelf_life_days',
+                     'gousto_reference']
+        str_names = ['title', 'created_at', 'updated_at', 'slug', 'short_title',
+                     'marketing_description', 'protein_grams', 'bulletpoint1',
+                     'bulletpoint2', 'bulletpoint3', 'season', 'protein_source',
+                     'equipment_needed', 'origin_country', 'recipe_cuisine',
+                     'in_your_box']
         self.reqparse = reqparse.RequestParser()
-        self.reqparse.add_argument("title", type=str, location='json')
-        self.reqparse.add_argument("calories_kcal", type=int, location='json')
+        [self.reqparse.add_argument(i, type=int, location='json') for i in int_names]
+        [self.reqparse.add_argument(i, type=str, location='json') for i in str_names]
         super(RecipeAPI, self).__init__()
 
     def put(self, id):
