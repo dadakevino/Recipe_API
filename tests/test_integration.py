@@ -1,5 +1,3 @@
-"""Unit test module for stores web app"""
-
 import json
 
 import pytest
@@ -56,15 +54,14 @@ class TestApp:
                                      cuisine=self.invalid_cuisine))
             assert res.status_code == 404
 
-class TestRecipeAPI:
-
     def test_put(self, client):
         """Tests updating recipe returns correct fields"""
-        test_data = {'title': 'changed'}
+        test_data = {"title": "changed"}
         with application.test_request_context():
-            res = client.put('/recipez/1',
+            res = client.put('/recipe/1',
                              data=test_data,
                              content_type='application/json')
+            print(res)
             result = json.loads(res.data)
             assert res.status_code == 200
             assert result['recipe']['title'] == 'changed'

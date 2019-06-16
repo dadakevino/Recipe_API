@@ -1,7 +1,7 @@
-"""Unit test module for stores web app"""
-
 import json
+from unittest.mock import patch
 
+from pytest_mock import mocker
 import pytest
 from flask import url_for
 import pandas as pd
@@ -26,7 +26,7 @@ class TestApp:
 
     def test_get_recipe(self, client, mocker):
         """Tests get api can get recipe by ID"""
-        patch = mocker.patch('helper.import_recipes_id',
+        patch = mocker.patch('helper.import_recipes_by_id',
                              return_value=self.recipes)
         id = self.recipes[0]['id']
 
@@ -63,13 +63,13 @@ class TestApp:
 
     def test_put(self, client, mocker):
         """Tests updating recipe returns correct fields"""
-        patch = mocker.patch('helper.import_recipes_id',
+        patch = mocker.patch('helper.import_recipes_by_id',
                              return_value=self.recipes)
         test_data = {'data': 'changed'}
         id = self.recipes[0]['id']
 
         with application.test_request_context():
-            res = client.put('/recipez/1',
+            res = client.put('/recipe/1',
                              data=test_data,
                              content_type='application/json')
             result = json.loads(res.data)
