@@ -22,7 +22,7 @@ def import_recipes_by_id(id):
 def paginate_recipes(page, recipes_list, cuisine):
     """Paginates a list of recipes for a given page
     Items per page defined in config"""
-    per_page = 2
+    per_page = 10
 
     pagination = {}
     pagination['recipes'] = recipes_list[(page - 1) * per_page: page * per_page]
